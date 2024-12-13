@@ -48,10 +48,21 @@ namespace ctypora
         }
         static void Main(string[] args)
         {
-            string filePath = @"resources\page-dist\static\js\LicenseIndex.180dd4c7.5c394f9a.chunk.js";
+            string directoryPath = @"resources\page-dist\static\js";
+            string searchPattern = "LicenseIndex.*.chunk.js";
+            string[] matchingFiles = Directory.GetFiles(directoryPath, searchPattern);
+            if(matchingFiles.Length==0)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"No matching files found in {directoryPath} with pattern {searchPattern}");
+                Console.ResetColor();
+                return;
+            }
+            string filepath = matchingFiles[0];
+            //string filePath = @"resources\page-dist\static\js\LicenseIndex.180dd4c7.5c394f9a.chunk.js";
             string oldString = "e.hasActivated=\"true\"==e.hasActivated";
             string newString = "e.hasActivated=\"true\"==\"true\"";
-            ModifyStringInFile(filePath, oldString, newString);
+            ModifyStringInFile(filepath, oldString, newString);
             Console.Read();
         }
     }
